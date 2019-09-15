@@ -97,59 +97,59 @@ app.get("/saved", function(req, res) {
 		});
 });
 
-// // Route for grabbing a specific Article by id, populate it with it's comment
-// app.get("/articles/:id", function(req, res) {
-// 	db.Article.findOne({ _id: req.params.id })
-// 		.populate("comment")
-// 		.then(function(dbArticle) {
-// 			res.json(dbArticle);
-// 		})
-// 		.catch(function(err) {
-// 			res.json(err);
-// 		});
-// });
+// Route for grabbing a specific Article by id, populate it with it's comment
+app.get("/articles/:id", function(req, res) {
+	db.Article.findOne({ _id: req.params.id })
+		.populate("comment")
+		.then(function(dbArticle) {
+			res.json(dbArticle);
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
 
-// //Route for marking an Article as saved
-// app.post("/articles/saved/:id", function(req, res) {
-// 	db.Article.findOneAndUpdate({"_id": req.params.id}, {saved: true})
-// 		.then(function(data) {
-// 			res.send(data);
-// 		})
-// 		.catch(function(err) {
-// 			res.json(err);
-// 		});
-// });
+//Route for marking an Article as saved
+app.post("/articles/saved/:id", function(req, res) {
+	db.Article.findOneAndUpdate({"_id": req.params.id}, {saved: true})
+		.then(function(data) {
+			res.send(data);
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
 
 
-// //Route for removing an article from the saved field
-// app.post("/articles/saved/:id/remove", function(req, res) {
-// 	db.Article.findOneAndUpdate({"_id": req.params.id}, {saved: false})
-// 		.then(function(data) {
-// 			res.send(data);
-// 		})
-// 		.catch(function(err) {
-// 			res.json(err);
-// 		});
-// });
+//Route for removing an article from the saved field
+app.post("/articles/saved/:id/remove", function(req, res) {
+	db.Article.findOneAndUpdate({"_id": req.params.id}, {saved: false})
+		.then(function(data) {
+			res.send(data);
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
 
-// // Route for saving/updating an Article's associated Comment
-// app.post("/articles/:id", function(req, res) {
-// 	db.Comment.create(req.body)
-// 		.then(function(dbComment) {
-// 			return db.Article.findOneAndUpdate({ _id: req.params.id }, 
-// 				{ $push: { comment: dbComment._id} }, 
-// 				{ new: true });
-// 		})
-// 		.catch(function(err) {
-// 			res.json(err);
-// 		});
-// });
+// Route for saving/updating an Article's associated Comment
+app.post("/articles/:id", function(req, res) {
+	db.Comment.create(req.body)
+		.then(function(dbComment) {
+			return db.Article.findOneAndUpdate({ _id: req.params.id }, 
+				{ $push: { comment: dbComment._id} }, 
+				{ new: true });
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
 
-// app.delete("/comments/:id", function(req, res) {
-// 	console.log(req.params.id);
-// 	// eslint-disable-next-line quotes
-// 	db.Comment.deleteOne( {_id: 'ObjectId('+req.params.id+')'} );
-// });
+app.delete("/comments/:id", function(req, res) {
+	console.log(req.params.id);
+	// eslint-disable-next-line quotes
+	db.Comment.deleteOne( {_id: 'ObjectId('+req.params.id+')'} );
+});
 
 app.listen(PORT, function () {
 	console.log("Server listening on: http://localhost:" + PORT);
