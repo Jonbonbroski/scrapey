@@ -8,6 +8,7 @@ var HeadlineSchema = new Schema({
   title: String,
   
   body: String
+  
 });
 
 var Note = mongoose.model("Headline", HeadlineSchema);

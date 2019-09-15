@@ -14,7 +14,7 @@ var ArticleSchema = new Schema({
 		required: true
     },
     
-    info: {
+    summary : {
 
         type: String,
         required: true
@@ -22,9 +22,9 @@ var ArticleSchema = new Schema({
     },
 
 
-	comment: {
+	headline: {
 		type: Schema.Types.ObjectId,
-		ref: "Comment"
+		ref: "headline"
 	}
 });
 

@@ -20,10 +20,16 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set("index", __dirname + "/views");
 
+
+
+
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scrapey";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 var results = [];
+
+
+
 
 
 app.get("/", function (req, res) {
@@ -36,7 +42,7 @@ app.get("/", function (req, res) {
 
 
 app.get("/scrape", function (req, res) {
-	axios.get("https://www.politico.com/").then((response) => {
+	axios.get("https://medicalxpress.com/").then((response) => {
 		var $ = cheerio.load(response.data);
     
         
@@ -74,16 +80,17 @@ app.get("/", function(req, res) {
 		.then(function(dbArticle) {
 			var hbsObject = {
 				Article: dbArticle,
-				title: "Current Politio Articles to begin Conversations"
+				title: "Newest release in medical discoveries."
 			};
 			res.render("index", hbsObject);
 		})
 		.catch(function(err) {
 			res.json(err);
 		});
+
+
 });
 
-// Route for getting all saved Articles from the db
 app.get("/saved", function(req, res) {
 	db.Article.find({saved: true})
 		.then(function(dbArticle) {
@@ -97,7 +104,9 @@ app.get("/saved", function(req, res) {
 		});
 });
 
-// Route for grabbing a specific Article by id, populate it with it's comment
+
+
+
 app.get("/articles/:id", function(req, res) {
 	db.Article.findOne({ _id: req.params.id })
 		.populate("comment")
